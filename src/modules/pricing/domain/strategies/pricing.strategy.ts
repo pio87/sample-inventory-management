@@ -1,11 +1,7 @@
-import { Price } from "../value-objects/price";
-import { DiscountPolicy, DiscountContext } from '../policies';
+import { Price } from '../../../shared/domain/value-objects/price';
+import { DiscountPolicy } from '../policies';
 
 export interface PricingStrategy {
-  basePrice(productId: string): Price;
-  applyDiscounts(
-    price: Price,
-    policies: DiscountPolicy[],
-    context: DiscountContext
-  ): Price;
+  applyBasePrice(basePrice: Price): Price;
+  getDiscountPolicies(): DiscountPolicy[];
 }

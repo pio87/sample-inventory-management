@@ -2,9 +2,9 @@ import { OrderId } from "../value-objects/order-id";
 import { CustomerId } from "../value-objects/customer-id";
 import { OrderStatus } from "../value-objects/order-status";
 import { OrderItem } from "./order-item";
-import { Price } from "../value-objects/price";
 import { EmptyOrderError } from "../errors/empty-order.error";
 import { InvalidOrderStateError } from "../errors/invalid-order-state.error";
+import { Price } from '../../../shared/domain/value-objects/price';
 
 export class Order {
   private status: OrderStatus;

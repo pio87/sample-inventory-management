@@ -5,8 +5,8 @@ import {
   ProductName,
   ProductDescription,
   ProductCategory,
-  Price,
 } from "../../../domain";
+import { Price } from '../../../../shared/domain/value-objects/price';
 
 export class ProductMapper {
   static toPersistence(product: Product): ProductEntity {
@@ -14,7 +14,7 @@ export class ProductMapper {
     entity.id = product.getId().getValue();
     entity.name = product.getName();
     entity.description = product.getDescription();
-    entity.price = product.getPrice().getAmount();
+    entity.price = product.getPrice().getValue();
     entity.category = product.getCategory();
     return entity;
   }

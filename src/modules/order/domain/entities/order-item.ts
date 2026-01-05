@@ -1,4 +1,4 @@
-import { Price } from "../value-objects/price";
+import { Price } from '../../../shared/domain/value-objects/price';
 
 export class OrderItem {
   private constructor(
@@ -20,7 +20,7 @@ export class OrderItem {
   }
 
   getTotalPrice(): Price {
-    return Price.create(this.unitPrice.getAmount() * this.quantity);
+    return Price.create(this.unitPrice.getValue() * this.quantity);
   }
 
   getProductId(): string {

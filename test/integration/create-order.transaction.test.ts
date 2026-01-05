@@ -19,7 +19,10 @@ describe("CreateOrder transaction", () => {
 
     const handler = new CreateOrderHandler(
       TestDataSource,
-      new PricingServiceImpl()
+      new PricingServiceImpl(
+        /* pricingStrategyFactory */ {} as any,
+        /* discountSelector */ {} as any
+      )
     );
 
     await expect(

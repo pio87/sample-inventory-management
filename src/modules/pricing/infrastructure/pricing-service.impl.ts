@@ -1,58 +1,27 @@
-import {
-  PricingService,
-  PricingItem,
-  PricingResultItem,
-} from "../application/PricingService";
-import { PricingCalculator } from "../domain/services/pricing-calculator";
-import {
-  VolumeDiscountPolicy,
-  BlackFridayPolicy,
-  HolidaySalePolicy,
-} from "../domain/policies";
-import {
-  UsPricingStrategy,
-  EuPricingStrategy,
-  AsiaPricingStrategy,
-} from "../domain/strategies";
-import { Price } from '../../order/domain';
+import { PricingService } from '../application/pricing.service';
+import { Price } from '../../shared/domain/value-objects/price';
+import { DiscountContext } from '../domain/policies';
+import { PricingStrategyFactory } from '../domain/strategies/pricing-strategy-factory';
+import { DiscountSelector } from '../application/discount-selector';
 
 export class PricingServiceImpl implements PricingService {
-  async calculate(
-    customerId: string,
-    items: PricingItem[]
-  ): Promise<PricingResultItem[]> {
-    const region = this.resolveRegion(customerId);
+  constructor(
+    private readonly pricingStrategyFactory: PricingStrategyFactory,
+    private readonly discountSelector: DiscountSelector
+  ) {}
 
-    const strategy =
-      region === "US"
-        ? new UsPricingStrategy()
-        : region === "EU"
-          ? new EuPricingStrategy()
-          : new AsiaPricingStrategy();
+  calculateTotal(
+    subtotal: Price,
+    context: DiscountContext
+  ): Price {
+    const strategy = this.pricingStrategyFactory.fromRegion(context.region);
 
-    const policies = [
-      new VolumeDiscountPolicy(),
-      new BlackFridayPolicy(),
-      new HolidaySalePolicy(),
-    ];
+    const regionalPrice = strategy.applyBasePrice(subtotal);
 
-    const calculator = new PricingCalculator(strategy, policies);
-
-    return items.map((item) => {
-      const price = calculator.calculate(item.productId, {
-        quantity: item.quantity,
-        date: new Date(),
-      });
-
-      return {
-        productId: item.productId,
-        unitPrice: Price.create(price.getValue()),
-      };
-    });
-  }
-
-  private resolveRegion(customerId: string): "US" | "EU" | "ASIA" {
-    // TODO: This needs to come from customer data
-    return "EU";
+    return this.discountSelector.select(
+      regionalPrice,
+      strategy.getDiscountPolicies(),
+      context
+    );
   }
 }

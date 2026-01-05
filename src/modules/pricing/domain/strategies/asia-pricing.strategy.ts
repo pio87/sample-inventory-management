@@ -1,20 +1,18 @@
 import { PricingStrategy } from './pricing.strategy';
-import { Price } from '../value-objects/price';
-import { DiscountPolicy, DiscountContext } from '../policies';
+import { Price } from '../../../shared/domain/value-objects/price';
+import { BlackFridayPolicy, DiscountPolicy, VolumeDiscountPolicy } from '../policies';
 
 export class AsiaPricingStrategy implements PricingStrategy {
-  basePrice(): Price {
-    return Price.create(90);
+  private readonly discountPolicies: DiscountPolicy[] = [
+    new BlackFridayPolicy(),
+    new VolumeDiscountPolicy()
+  ];
+
+  getDiscountPolicies(): DiscountPolicy[] {
+    return this.discountPolicies;
   }
 
-  applyDiscounts(
-    price: Price,
-    policies: DiscountPolicy[],
-    context: DiscountContext
-  ): Price {
-    return policies.reduce(
-      (current, policy) => policy.apply(current, context),
-      price
-    );
+  applyBasePrice(basePrice: Price): Price {
+    return basePrice.decreaseByPercentage(0.5);
   }
 }

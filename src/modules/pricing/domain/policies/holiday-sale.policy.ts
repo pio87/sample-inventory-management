@@ -1,12 +1,19 @@
-import { DiscountPolicy, DiscountContext } from "./discount.policy";
-import { Price } from "../value-objects/price";
+import { DiscountContext, DiscountPolicy } from './discount.policy';
+import { Price } from '../../../shared/domain/value-objects/price';
 
 export class HolidaySalePolicy implements DiscountPolicy {
-  apply(price: Price, context: DiscountContext): Price {
-    const month = context.date.getMonth();
-    const isHoliday = month === 11; // December
+  private discountedCategories: string[] = ['shoes', 'toys'];
 
-    // TODO: Consider all Polish public holidays for more accurate discount application
-    return isHoliday ? price.applyDiscount(0.15) : price;
+  isApplicable(context: DiscountContext): boolean {
+    const month = context.date.getMonth();
+    const isHoliday = month === 11; // whole December
+
+    // TODO: Consider all Polish public holidays
+    // TODO: Should be applied only for specific product categories
+    return isHoliday;
+  }
+
+  apply(price: Price): Price {
+    return price.decreaseByPercentage(0.15);
   }
 }

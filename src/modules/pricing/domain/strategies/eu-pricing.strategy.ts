@@ -1,20 +1,20 @@
 import { PricingStrategy } from './pricing.strategy';
-import { Price } from '../value-objects/price';
-import { DiscountPolicy, DiscountContext } from '../policies';
+import { Price } from '../../../shared/domain/value-objects/price';
+import { BlackFridayPolicy, DiscountPolicy, HolidaySalePolicy, VolumeDiscountPolicy } from '../policies';
 
 export class EuPricingStrategy implements PricingStrategy {
-  basePrice(): Price {
-    return Price.create(120);
+  private readonly VAT_RATE = 0.15;
+  private readonly discountPolicies: DiscountPolicy[] = [
+    new BlackFridayPolicy(),
+    new VolumeDiscountPolicy(),
+    new HolidaySalePolicy()
+  ];
+
+  getDiscountPolicies(): DiscountPolicy[] {
+    return this.discountPolicies;
   }
 
-  applyDiscounts(
-    price: Price,
-    policies: DiscountPolicy[],
-    context: DiscountContext
-  ): Price {
-    return policies.reduce(
-      (current, policy) => policy.apply(current, context),
-      price
-    );
+  applyBasePrice(basePrice: Price): Price {
+    return basePrice.increaseByPercentage(this.VAT_RATE);
   }
 }

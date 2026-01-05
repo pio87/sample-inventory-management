@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { InventoryItem } from "../../../src/modules/inventory/domain/entities/inventory-item";
-import { ProductId } from "../../../src/modules/inventory/domain/value-objects/product-id";
-import { Quantity } from "../../../src/modules/inventory/domain/value-objects/quantity";
+import { InventoryItem } from '../../../../src/modules/inventory/domain/entities/inventory-item';
+import { Quantity } from '../../../../src/modules/inventory/domain/value-objects/quantity';
+import { ProductId } from '../../../../src/modules/inventory/domain/value-objects/product-id';
 
 describe("InventoryItem", () => {
   it("should not allow stock below zero", () => {

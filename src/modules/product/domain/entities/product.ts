@@ -1,8 +1,8 @@
 import { ProductId } from '../value-objects/product-id';
 import { ProductName } from '../value-objects/product-name';
 import { ProductDescription } from '../value-objects/product-description';
-import { Price } from '../value-objects/price';
 import { ProductCategory } from '../value-objects/product-category';
+import { Price } from '../../../shared/domain/value-objects/price';
 
 
 class Product {

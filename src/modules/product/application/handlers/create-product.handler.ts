@@ -3,10 +3,10 @@ import {
   ProductName,
   ProductDescription,
   ProductCategory,
-  Price,
   ProductRepository,
 } from "../../domain";
 import { CreateProductCommand } from "../commands/create-product.command";
+import { Price } from '../../../shared/domain/value-objects/price';
 
 export class CreateProductHandler {
   constructor(private readonly productRepository: ProductRepository) {}

@@ -12,7 +12,7 @@ export class GetAllProductsHandler {
       id: p.getId().getValue(),
       name: p.getName(),
       description: p.getDescription(),
-      price: p.getPrice().getAmount(),
+      price: p.getPrice().getValue(),
       category: p.getCategory(),
     }));
   }
