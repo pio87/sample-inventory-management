@@ -5,6 +5,7 @@ import { RepositoryFactory } from "../../../shared/persistance/repository-factor
 import { Order, OrderItem, CustomerId, Price } from '../../domain';
 import { ProductId } from "../../../inventory/domain/value-objects/product-id";
 import { Quantity } from "../../../inventory/domain/value-objects/quantity";
+import { NotFoundError } from '../../../shared/errors/not-found.error';
 
 export class CreateOrderHandler {
   constructor(
@@ -30,7 +31,7 @@ export class CreateOrderHandler {
         );
 
         if (!inventoryItem) {
-          throw new Error("Inventory item not found");
+          throw new NotFoundError(`Inventory item for product ID ${item.productId} not found`);
         }
 
         inventoryItem.sell(Quantity.create(item.quantity));

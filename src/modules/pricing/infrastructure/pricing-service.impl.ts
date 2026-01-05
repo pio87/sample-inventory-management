@@ -52,6 +52,7 @@ export class PricingServiceImpl implements PricingService {
   }
 
   private resolveRegion(customerId: string): "US" | "EU" | "ASIA" {
+    // TODO: This needs to come from customer data
     return "EU";
   }
 }

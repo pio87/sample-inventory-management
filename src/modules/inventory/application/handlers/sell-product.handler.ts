@@ -13,7 +13,7 @@ export class SellProductHandler {
 
     const item = await this.inventoryRepository.findByProductId(productId);
     if (!item) {
-      throw new NotFoundError();
+      throw new NotFoundError(`Inventory item for product ID ${command.productId} not found`);
     }
 
     item.sell(quantity);

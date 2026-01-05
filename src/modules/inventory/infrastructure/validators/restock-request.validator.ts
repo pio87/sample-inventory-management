@@ -1,7 +1,7 @@
-import { body, ValidationChain } from 'express-validator';
+import { body, param } from 'express-validator';
 
 export const restockRequestValidator = [
-  body('productId')
+  param('productId')
     .isUUID()
     .withMessage('productId must be a valid UUID'),
   body('quantity')

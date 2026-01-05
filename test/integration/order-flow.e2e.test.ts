@@ -25,7 +25,11 @@ describe("E2E Order Flow", () => {
     const order = await request(app)
       .post("/orders")
       .send({
-        items: [{ productId: product.body.id, quantity: 2 }],
+        customerId: "123e4567-e89b-12d3-a456-426614174000",
+        items: [{
+          productId: product.body.id,
+          quantity: 2
+        }],
       })
       .expect(201);
 

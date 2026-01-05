@@ -25,13 +25,13 @@ export const inventoryRoutes = (dataSource: DataSource) => {
   );
 
   router.post(
-    "/products/:id/restock",
+    "/products/:productId/restock",
     restockRequestValidator,
     controller.restock.bind(controller)
   );
 
   router.post(
-    "/products/:id/sell",
+    "/products/:productId/sell",
     sellRequestValidator,
     controller.sell.bind(controller)
   );

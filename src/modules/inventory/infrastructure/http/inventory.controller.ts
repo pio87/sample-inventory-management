@@ -6,6 +6,7 @@ import { SellProductCommand } from "../../application/commands/sell-product.comm
 import { InsufficientStockError } from "../../domain/errors/insufficient-stock.error";
 import { InvalidQuantityError } from "../../domain/errors/invalid-quantity.error";
 import { NotFoundError } from '../../../shared/errors/not-found.error';
+import { validationResult } from 'express-validator';
 
 export class InventoryController {
   constructor(
@@ -14,9 +15,13 @@ export class InventoryController {
   ) {}
 
   async restock(req: Request, res: Response): Promise<Response> {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     try {
       const command = new RestockProductCommand(
-        req.params.id,
+        req.params.productId,
         req.body.quantity
       );
 
@@ -33,9 +38,13 @@ export class InventoryController {
   }
 
   async sell(req: Request, res: Response): Promise<Response> {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     try {
       const command = new SellProductCommand(
-        req.params.id,
+        req.params.productId,
         req.body.quantity
       );
 
