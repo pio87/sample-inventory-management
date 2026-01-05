@@ -7,6 +7,25 @@ The application exposes endpoints for product management, stock control, and ord
 
 The system was designed with a **Domain-Driven Design (DDD)** approach in mind, focusing on clear separation between domain logic, application use cases, and infrastructure concerns.
 
+Run development server:
+```bash
+pnpm install
+pnpm run dev
+```
+
+Run tests:
+
+```bash
+pnpm run test
+```
+
+Available endpoints:
+- `POST /products` - Create a new product without initial stock.
+- `GET /products` - List of all products.
+- `POST /orders` - Create a new order, adjusting stock levels accordingly.
+- `POST /products/:id/restock` - Restock a product by a specified quantity.
+- `POST /products/:id/sell` - Sell a specified quantity of a product, reducing stock.
+
 ---
 
 ## Notes / Assumptions
